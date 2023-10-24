@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="row">
+        <div class="col">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Prénom</th>
+                        <th>Nom</th>
+                        <th>Email</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for person in persons %}
+                        <tr>
+                            <td>{{ person[0] }}</td>
+                            <td>{{ person[1] }}</td>
+                            <td>{{ person[2] }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}

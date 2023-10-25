@@ -9,6 +9,7 @@
                         <th>Prénom</th>
                         <th>Nom</th>
                         <th>Email</th>
+                        <th>Groupe</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -17,6 +18,7 @@
                             <td>{{ person.firstName }}</td>
                             <td>{{ person.lastName }}</td>
                             <td>{{ person.email }}</td>
+                            <td>{{ person.group.name }} ({{ person.group.tags|length }})</td>
                         </tr>
                     {% endfor %}
                 </tbody>

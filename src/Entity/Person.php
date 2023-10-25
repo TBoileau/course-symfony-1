@@ -8,12 +8,8 @@ use App\Repository\PersonRepository;
 use DateTimeImmutable;
 use DateTimeInterface;
 use Doctrine\DBAL\Types\Types;
-use Doctrine\ORM\Mapping\Column;
-use Doctrine\ORM\Mapping\Entity;
-use Doctrine\ORM\Mapping\GeneratedValue;
-use Doctrine\ORM\Mapping\Id;
-use Symfony\Component\Validator\Constraints\Email;
-use Symfony\Component\Validator\Constraints\NotBlank;
+use Doctrine\ORM\Mapping\{Column, Entity, GeneratedValue, Id, JoinColumn, ManyToOne};
+use Symfony\Component\Validator\Constraints\{Email, NotBlank};
 
 #[Entity(repositoryClass: PersonRepository::class)]
 class Person
@@ -39,22 +35,13 @@ class Person
     #[Column(type: Types::DATETIME_IMMUTABLE)]
     private DateTimeInterface $registeredAt;
 
+    #[ManyToOne(inversedBy: 'persons')]
+    #[JoinColumn(nullable: false)]
+    private Group $group;
+
     public function __construct()
     {
         $this->registeredAt = new DateTimeImmutable();
-    }
-
-    /**
-     * @param array{firstName: string, lastName: string, email: string} $person
-     */
-    public static function createPerson(array $person): self
-    {
-        $newPerson = new self();
-        $newPerson->setFirstName($person['firstName']);
-        $newPerson->setLastName($person['lastName']);
-        $newPerson->setEmail($person['email']);
-
-        return $newPerson;
     }
 
     public function getId(): ?int
@@ -67,9 +54,11 @@ class Person
         return $this->firstName;
     }
 
-    public function setFirstName(string $firstName): void
+    public function setFirstName(string $firstName): self
     {
         $this->firstName = $firstName;
+
+        return $this;
     }
 
     public function getLastName(): string
@@ -77,9 +66,11 @@ class Person
         return $this->lastName;
     }
 
-    public function setLastName(string $lastName): void
+    public function setLastName(string $lastName): self
     {
         $this->lastName = $lastName;
+
+        return $this;
     }
 
     public function getEmail(): string
@@ -87,18 +78,27 @@ class Person
         return $this->email;
     }
 
-    public function setEmail(string $email): void
+    public function setEmail(string $email): self
     {
         $this->email = $email;
+
+        return $this;
     }
 
-    public function getRegisteredAt(): ?\DateTimeInterface
+    public function getRegisteredAt(): ?DateTimeInterface
     {
         return $this->registeredAt;
     }
 
-    public function setRegisteredAt(?\DateTimeInterface $registeredAt): void
+    public function getGroup(): Group
     {
-        $this->registeredAt = $registeredAt;
+        return $this->group;
+    }
+
+    public function setGroup(Group $group): self
+    {
+        $this->group = $group;
+
+        return $this;
     }
 }

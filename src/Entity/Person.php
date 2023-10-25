@@ -12,6 +12,8 @@ use Doctrine\ORM\Mapping\Column;
 use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\Mapping\GeneratedValue;
 use Doctrine\ORM\Mapping\Id;
+use Symfony\Component\Validator\Constraints\Email;
+use Symfony\Component\Validator\Constraints\NotBlank;
 
 #[Entity(repositoryClass: PersonRepository::class)]
 class Person
@@ -22,12 +24,16 @@ class Person
     private ?int $id = null;
 
     #[Column(type: Types::STRING)]
+    #[NotBlank]
     private string $firstName;
 
     #[Column(type: Types::STRING)]
+    #[NotBlank]
     private string $lastName;
 
     #[Column(type: Types::STRING)]
+    #[NotBlank]
+    #[Email]
     private string $email;
 
     #[Column(type: Types::DATETIME_IMMUTABLE)]

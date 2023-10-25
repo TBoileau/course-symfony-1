@@ -3,27 +3,25 @@
 {% block body %}
     <div class="row">
         <div class="col">
-            <form method="POST">
+            {{ form_errors(form) }}
+            {{ form_start(form) }}
                 <div class="row mb-3">
                     <div class="col-6">
                         <div>
-                            <label for="firstName" class="form-label">Prénom</label>
-                            <input type="text" class="form-control" id="firstName" name="person[firstName]">
+                            {{ form_label(form.firstName) }}
+                            {{ form_widget(form.firstName) }}
                         </div>
                     </div>
                     <div class="col-6">
                         <div>
-                            <label for="lastName" class="form-label">Nom</label>
-                            <input type="text" class="form-control" id="lastName" name="person[lastName]">
+                            {{ form_label(form.lastName) }}
+                            {{ form_widget(form.lastName) }}
                         </div>
                     </div>
                 </div>
-                <div class="mb-3">
-                    <label for="email" class="form-label">Email</label>
-                    <input type="email" class="form-control" id="email" name="person[email]">
-                </div>
+                {{ form_row(form.email) }}
                 <button type="submit" class="btn btn-primary">Ajouter</button>
-            </form>
+            {{ form_end(form) }}
         </div>
     </div>
 {% endblock %}

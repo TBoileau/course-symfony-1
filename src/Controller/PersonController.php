@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use App\Entity\Person;
+use App\Form\PersonType;
 use App\Repository\PersonRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -29,16 +30,15 @@ class PersonController extends AbstractController
     #[Route('/create', name: 'create', methods: ['GET', 'POST'])]
     public function create(Request $request): Response
     {
-        if ($request->isMethod('POST')) {
-            /** @var array{firstName: string, lastName: string, email: string} $person */
-            $rawPerson = $request->request->all('person');
+        $person = new Person();
 
-            $person = Person::createPerson($rawPerson);
+        $form = $this->createForm(PersonType::class, $person)->handleRequest($request);
 
+        if ($form->isSubmitted() && $form->isValid()) {
             $this->personRepository->create($person);
 
             return $this->redirectToRoute('person_index');
         }
-        return $this->render('person/create.html.twig');
+        return $this->render('person/create.html.twig', ['form' => $form]);
     }
 }

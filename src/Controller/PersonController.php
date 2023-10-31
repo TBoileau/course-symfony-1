@@ -11,6 +11,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[Route(name: 'person_')]
 class PersonController extends AbstractController
@@ -28,6 +29,7 @@ class PersonController extends AbstractController
     }
 
     #[Route('/create', name: 'create', methods: ['GET', 'POST'])]
+    #[IsGranted('ROLE_ADMIN')]
     public function create(Request $request): Response
     {
         $person = new Person();

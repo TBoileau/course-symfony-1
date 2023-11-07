@@ -6,8 +6,10 @@ namespace App\DataFixtures;
 
 use App\Entity\Group;
 use App\Entity\Person;
+use App\Entity\User;
 use App\Repository\GroupRepository;
 use App\Repository\PersonRepository;
+use App\Repository\UserRepository;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
@@ -27,14 +29,20 @@ final class PersonFixtures extends Fixture implements DependentFixtureInterface
 
         $groups = $groupRepository->findAll();
 
+        /** @var UserRepository $userRepository */
+        $userRepository = $manager->getRepository(User::class);
+
+        $users = $userRepository->findAll();
+
         foreach ($groups as $group) {
             for ($index = 1; $index <= 10; ++$index) {
                 $personRepository->create(
                     (new Person())
                         ->setFirstName($faker->firstName())
                         ->setLastName($faker->lastName())
-                        ->setEmail(sprintf('person+%d@email.com', $index))
+                        ->setEmail(sprintf('person+%d%d@email.com', $group->getId(), $index))
                         ->setGroup($group)
+                        ->setUser($users[$index % 10])
                 );
             }
         }
@@ -45,6 +53,6 @@ final class PersonFixtures extends Fixture implements DependentFixtureInterface
      */
     public function getDependencies(): array
     {
-        return [GroupFixtures::class];
+        return [GroupFixtures::class, UserFixtures::class];
     }
 }

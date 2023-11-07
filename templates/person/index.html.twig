@@ -10,6 +10,7 @@
                         <th>Nom</th>
                         <th>Email</th>
                         <th>Groupe</th>
+                        <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -19,6 +20,19 @@
                             <td>{{ person.lastName }}</td>
                             <td>{{ person.email }}</td>
                             <td>{{ person.group.name }} ({{ person.group.tags|length }})</td>
+                            <td>
+                                {% if is_granted('UPDATE', person) %}
+                                    <a class="btn btn-sm btn-primary" href="{{ path('person_update', {id: person.id}) }}">Modifier</a>
+                                {% endif %}
+                                {% if is_granted('DELETE', person) %}
+                                    <form action="{{ url('person_delete', { id: person.id }) }}" method="post">
+                                        {# the argument of csrf_token() is an arbitrary string used to generate the token #}
+                                        <input type="hidden" name="_csrf_token" value="{{ csrf_token('delete-person') }}">
+
+                                        <button class="btn btn-sm btn-danger" type="submit">Supprimer</button>
+                                    </form>
+                                {% endif %}
+                            </td>
                         </tr>
                     {% endfor %}
                 </tbody>

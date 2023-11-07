@@ -1,0 +1,32 @@
+{{ form_errors(form) }}
+{{ form_start(form) }}
+<div class="row mb-3">
+    <div class="col-6">
+        <div>
+            {{ form_label(form.firstName) }}
+            {{ form_widget(form.firstName) }}
+        </div>
+    </div>
+    <div class="col-6">
+        <div>
+            {{ form_label(form.lastName) }}
+            {{ form_widget(form.lastName) }}
+        </div>
+    </div>
+</div>
+<div class="row mb-3">
+    <div class="col-6">
+        <div>
+            {{ form_label(form.email) }}
+            {{ form_widget(form.email) }}
+        </div>
+    </div>
+    <div class="col-6">
+        <div>
+            {{ form_label(form.group) }}
+            {{ form_widget(form.group) }}
+        </div>
+    </div>
+</div>
+<button type="submit" class="btn btn-primary">{{ button_label }}</button>
+{{ form_end(form) }}

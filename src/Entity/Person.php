@@ -39,6 +39,10 @@ class Person
     #[JoinColumn(nullable: false)]
     private Group $group;
 
+    #[ManyToOne]
+    #[JoinColumn(nullable: false)]
+    private User $user;
+
     public function __construct()
     {
         $this->registeredAt = new DateTimeImmutable();
@@ -99,6 +103,17 @@ class Person
     {
         $this->group = $group;
 
+        return $this;
+    }
+
+    public function getUser(): User
+    {
+        return $this->user;
+    }
+
+    public function setUser(User $user): Person
+    {
+        $this->user = $user;
         return $this;
     }
 }

@@ -28,4 +28,15 @@ final class PersonRepository extends ServiceEntityRepository
         $this->getEntityManager()->persist($person);
         $this->getEntityManager()->flush();
     }
+
+    public function update(Person $person): void
+    {
+        $this->getEntityManager()->flush($person);
+    }
+
+    public function delete(Person $person): void
+    {
+        $this->getEntityManager()->remove($person);
+        $this->getEntityManager()->flush();
+    }
 }
